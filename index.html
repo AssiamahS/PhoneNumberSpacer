@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phone Number Formatter</h1>
+        <input type="text" id="oldNumber" placeholder="Enter number (e.g., 7324894378)">
+        <button onclick="formatNumber()">Format Number</button>
+        <br>
+        <input type="text" id="newNumber" readonly placeholder="Formatted number will appear here">
+        <br>
+        <button onclick="copyNumber()">Copy Formatted Number</button>
+        <button onclick="pasteNumber()">Paste Original Number</button>
+    </div>
+
+    <script>
+        function formatNumber() {
+            const oldNumber = document.getElementById('oldNumber').value;
+            const formattedNumber = `+1 (${oldNumber.slice(0, 3)}) - ${oldNumber.slice(3, 6)} - ${oldNumber.slice(6)}`;
+            document.getElementById('newNumber').value = formattedNumber;
+        }
+
+        function copyNumber() {
+            const newNumber = document.getElementById('newNumber');
+            newNumber.select();
+            newNumber.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+            alert('Formatted number copied to clipboard');
+        }
+
+        function pasteNumber() {
+            navigator.clipboard.readText().then(text => {
+                document.getElementById('oldNumber').value = text;
+            }).catch(err => {
+                console.error('Failed to read clipboard contents: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
