@@ -26,6 +26,10 @@
         button {
             font-size: 1.5em;
             padding: 10px 20px;
+            margin: 5px;
+        }
+        .footer-buttons {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -35,6 +39,12 @@
     <input type="text" id="originalNumber" placeholder="Enter phone number">
     <button onclick="formatNumber()">Format Number</button>
     <button onclick="copyFormattedNumber()">Copy Formatted Number</button>
+
+    <div class="footer-buttons">
+        <button onclick="window.open('https://github.com/AssiamahS', '_blank')">Follow Me</button>
+        <button onclick="window.open('https://assiamahs.github.io/PhoneNumberSpacer/', '_blank')">Check Out This Repo</button>
+        <button onclick="window.open('https://github.com/AssiamahS?tab=repositories', '_blank')">Check Out My Other Repos</button>
+    </div>
 
     <script>
         function formatNumber() {
