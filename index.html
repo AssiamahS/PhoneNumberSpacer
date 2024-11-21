@@ -6,56 +6,54 @@
     <title>Phone Number Formatter</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
+            font-family: Arial, sans-serif;
         }
-        .container {
-            text-align: center;
+        #formattedNumber {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
-        input, button {
-            margin: 10px;
+        input {
+            font-size: 1.5em;
             padding: 10px;
-            font-size: 16px;
+            margin: 10px;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Phone Number Formatter</h1>
-        <input type="text" id="oldNumber" placeholder="Enter number (e.g., 7324894378)">
-        <button onclick="formatNumber()">Format Number</button>
-        <br>
-        <input type="text" id="newNumber" readonly placeholder="Formatted number will appear here">
-        <br>
-        <button onclick="copyNumber()">Copy Formatted Number</button>
-        <button onclick="pasteNumber()">Paste Original Number</button>
-    </div>
+    <div>Formatted Number</div>
+    <div id="formattedNumber">Formatted Number</div>
+    <input type="text" id="originalNumber" placeholder="Enter phone number">
+    <button onclick="formatNumber()">Format Number</button>
+    <button onclick="copyFormattedNumber()">Copy Formatted Number</button>
 
     <script>
         function formatNumber() {
-            const oldNumber = document.getElementById('oldNumber').value;
-            const formattedNumber = `+1 (${oldNumber.slice(0, 3)}) - ${oldNumber.slice(3, 6)} - ${oldNumber.slice(6)}`;
-            document.getElementById('newNumber').value = formattedNumber;
+            let number = document.getElementById('originalNumber').value;
+            number = number.replace(/[\s-]/g, ''); // Remove spaces and dashes
+            if (number.startsWith('+1')) {
+                number = number.substring(2); // Remove +1 if it exists
+            }
+            if (!number.startsWith('+')) {
+                number = '+1' + number; // Add +1 if no international code
+            }
+            number = number.replace(/^\+1(\d{3})(\d{3})(\d{4})$/, '+1 ($1) $2-$3'); // Format number with parentheses and dashes
+            document.getElementById('formattedNumber').innerText = number;
         }
 
-        function copyNumber() {
-            const newNumber = document.getElementById('newNumber');
-            newNumber.select();
-            newNumber.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-            alert('Formatted number copied to clipboard');
-        }
-
-        function pasteNumber() {
-            navigator.clipboard.readText().then(text => {
-                document.getElementById('oldNumber').value = text;
-            }).catch(err => {
-                console.error('Failed to read clipboard contents: ', err);
+        function copyFormattedNumber() {
+            const formattedNumber = document.getElementById('formattedNumber').innerText;
+            navigator.clipboard.writeText(formattedNumber).then(() => {
+                alert('Formatted number copied to clipboard');
             });
         }
     </script>
